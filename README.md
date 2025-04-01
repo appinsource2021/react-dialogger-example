@@ -1,6 +1,7 @@
+
 # NPM
 ```js
-npm i react-dialogger
+npm install
 ```
 
 # GitHub
