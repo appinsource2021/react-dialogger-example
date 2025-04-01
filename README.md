@@ -1,11 +1,14 @@
-
 # NPM
 ```js
-npm install
+npm i react-dialogger
 ```
 
 # GitHub
 You can find the example code and more information about the project on our [GitHub repository](https://github.com/appinsource2021/react-dialogger-example.git).
+
+# codesandbox
+You can find the example code about the project on our [Codesandbox](https://codesandbox.io/p/sandbox/7r3t84).
+
 
 # react-araci - Custom Dialog Component Documentation
 
@@ -309,4 +312,8 @@ This basic usage setup enables you to quickly configure and display a custom dia
 > **⚠ Important Notice**  
 > This package is a continuation of the `react-araci` package.  
 > Due to an error, `react-araci` was removed, and it has been decided to continue under the new package name **`react-dialogger`**.
+
+## 📩 Contact
+For support or inquiries, please reach out via email:  
+✉️ [developer@appinsource.eu](mailto:developer@appinsource.eu)
 
