@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "jsx": "react", // For React 17+ (recommended)
+    "module": "ESNext", // Use ES Modules
+    "moduleResolution": "node", // Resolve modules in Node.js style
+    "esModuleInterop": true, // Enable compatibility with CommonJS modules
+    "allowSyntheticDefaultImports": true, // Allows default imports for CommonJS modules
+    "strict": true, // Optional: stricter checks for your project
+    "resolveJsonModule": true, // Optional: resolve JSON imports
+    "allowImportingTsExtensions": true // An import path can only end with .tsx extension when 'allowImportingTsExtensions' is enabled.
+  }
+}

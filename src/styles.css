@@ -1,0 +1,10 @@
+.custom-action-class {
+    background: red;
+}
+.custom-action-class:hover {
+    opacity: .6;
+}
+
+.custom-action-class:active {
+    opacity: .1;
+}

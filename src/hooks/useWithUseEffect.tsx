@@ -1,0 +1,237 @@
+import React, {useEffect} from "react";
+import Dialog, {
+    DialogAction, DialogCloseAction, DialogProcessing,
+} from "react-dialogger"
+import {
+    ActionDialogDef,
+    ActionDef, IDialogDef
+} from "react-dialogger/types"
+
+const CustomFooter = ({values, loading,}: {values: any, loading: any}) => {
+    console.log('CustomFooter', values, loading, );
+    return (
+        <div>
+            <span>Counter: {values.count}</span>
+            <DialogProcessing />
+        </div>
+    )
+}
+
+const CustomHeader = ({values, loading, dialog, newProps }: {values: any, loading: any, dialog: Dialog, newProps: any}) => {
+    console.log('CustomHeader', values, loading, dialog);
+    return (
+        <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between'}}>
+            <span>Counter: {values.count}</span>
+
+            <DialogCloseAction />
+        </div>
+    )
+}
+
+const mocker = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus. Nullam accumsan lorem in dui. Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Sed aliquam ultrices mauris. Integer ante arcu, accumsan a, consectetuer eget, posuere ut, mauris. Praesent adipiscing. Phasellus ullamcorper ipsum rutrum nunc. Nunc nonummy metus. Vestibulum volutpat pretium libero. Cras id dui. Aenean ut eros et nisl sagittis vestibulum. Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat, pede. Sed lectus. Donec mollis hendrerit risus. Phasellus nec sem in justo pellentesque facilisis. Etiam imperdiet imperdiet orci. Nunc nec neque. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Maecenas malesuada. Praesent congue erat at massa. Sed cursus turpis vitae tortor. Donec posuere vulputate arcu. Phasellus accumsan cursus velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue, elit erat euismod orci, ac placerat dolor lectus quis orci. Phasellus consectetuer vestibulum elit. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Vestibulum fringilla pede sit amet augue. In turpis. Pellentesque posuere. Praesent turpis. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Donec elit libero, sodales nec, volutpat a, suscipit non, turpis. Nullam sagittis. Suspendisse pulvinar, augue ac venenatis condimentum, sem libero volutpat nibh, nec pellentesque velit pede quis nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut varius tincidunt libero. Phasellus dolor. Maecenas vestibulum mollis diam. Pellentesque ut neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. In ac felis quis tortor malesuada pretium. Pellentesque auctor neque nec urna. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Aenean viverra rhoncus pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut non enim eleifend felis pretium feugiat. Vivamus quis mi. Phasellus a est. Phasellus magna. In hac habitasse platea dictumst. Curabitur at lacus ac velit ornare lobortis. Curabitur a felis in nunc fringilla tristique. Morbi mattis ullamcorper velit. Phasellus gravida semper nisi. Nullam vel sem. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Sed hendrerit. Morbi ac felis. Nunc egestas, augue at pellentesque laoreet, felis eros vehicula leo, at malesuada velit leo quis pede. Donec interdum, metus et hendrerit aliquet, dolor diam sagittis ligula, eget egestas libero turpis vel mi. Nunc nulla. Fusce risus nisl, viverra et, tempor et, pretium in, sapien. Donec venenatis vulputate lorem. Morbi nec metus. Phasellus blandit leo ut odio. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Sed magna purus, fermentum eu, tincidunt eu, varius ut, felis. In auctor lobortis lacus. Quisque libero metus, condimentum nec, tempor a, commodo mollis, magna. Vestibulum ullamcorper mauris at ligula. Fusce fermentum. Nullam cursus lacinia erat. Praesent blandit laoreet nibh. Fusce convallis metus id felis luctus adipiscing. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor orci leo non est. Quisque id mi. Ut tincidunt tincidunt erat. Etiam feugiat lorem non metus. Vestibulum dapibus nunc ac augue. Curabitur vestibulum aliquam leo. Praesent egestas neque eu enim. In hac habitasse platea dictumst. Fusce a quam. Etiam ut purus mattis mauris sodales aliquam. Curabitur nisi. Quisque malesuada placerat nisl. Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc, vitae euismod ligula urna in dolor. Mauris sollicitudin fermentum libero. Praesent nonummy mi in odio. Nunc interdum lacus sit amet orci. Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi. Morbi mollis tellus ac sapien. Phasellus volutpat, metus eget egestas mollis, lacus lacus blandit dui, id egestas quam mauris ut lacus. Fusce vel dui. Sed in libero ut nibh placerat accumsan. Proin faucibus arcu quis ante. In consectetuer turpis ut velit. Nulla sit amet est. Praesent metus tellus, elementum eu, semper a, adipiscing nec, purus. Cras risus ipsum, faucibus ut, ullamcorper id, varius ac, leo. Suspendisse feugiat. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi. Praesent nec nisl a purus blandit viverra. Praesent ac massa at ligula laoreet iaculis. Nulla neque dolor, sagittis eget, iaculis quis, molestie non, velit. Mauris turpis nunc, blandit et, volutpat molestie, porta ut, ligula. Fusce pharetra convallis urna. Quisque ut nisi. Donec mi odio, faucibus at, scelerisque quis,"
+const useWithUseEffect = () => {
+
+    const [loaded, setLoaded] = React.useState(false);
+    const dialogOuterRef = React.useRef<Dialog|null>(null);
+    useEffect(() => {
+        if( loaded ){
+
+            const dialog = dialogOuterRef.current!;
+
+            console.log('dialog.actions', dialog.actions.okAction);
+            dialog.setInProcess(true, 'Update only the name in 3 sec...');
+            // dialog.actions.okAction.setInProcess(true);
+            setTimeout(()=> {
+                dialog.setValue('name', 'New Phillip');
+
+                dialog.setInProcess(true, `Update only name to ${dialog.values.name}, now all values in 10 sec...`);
+                setTimeout(()=> {
+                    dialog.setValues({
+                        name: 'Updated name to Thomas',
+                        surname: 'Updated to surname to Marcus',
+                        count: dialog.values.count
+                    });
+                    dialog.setInProcess(false);
+                    // dialog.actions.okAction.setInProcess(false);
+                }, 2000);
+
+            }, 1000)
+        }
+    }, [loaded]);
+
+    const openDialog = () => {
+        const okAction = new DialogAction('okAction', {
+            label: 'Ok',
+            variant: 'contained',
+            style: {
+                backgroundColor: 'green', color: 'white', padding: '3px 20px'
+            }
+        });
+        okAction
+            .onClick((button, dialog) => {
+                button.setInProcess(true);
+            }).stateListener((state, values, button, dialog1) => {
+                // Counter Action Label update via okAction StateListener
+                // dialog1.actions.countAction.setOptions({
+                //     label: `Count: ${values.count}`,
+                // });
+                dialog1.actions.countAction.setOptions({
+                    label: `Count: ${values.count}`,
+                });
+                console.log('ActionStateListener1', state, values);
+            })
+
+        const cancelAction = new DialogAction('cancelAction', {
+            label: 'Cancel',
+            variant: 'text',
+            color: 'primary'
+        });
+        cancelAction.onClick( (button, dialog) => {
+            dialog.close();
+        });
+
+        const countAction = new DialogAction('countAction', {
+            label: 'Count: 1',
+            variant: 'text',
+            color: 'primary'
+        });
+        countAction.onClick( (button, dialog) => {
+            const newValue = dialog.values.count + 1;
+            dialog.setValue('count', newValue)
+            // either here or (button | dialog) stateListener
+            // Button Label update via Click Event
+            // button.setOptions({
+            //     label: `Count: ${newValue}`,
+            // });
+        }).stateListener((state, values, button, dialog1) => {
+            // console.log('countActionStateListener', state, values, dialog1.actions.countAction);
+            // dialog1.actions.countAction.setOptions({
+            //     label: `Count: ${values.count}`,
+            // });
+            console.log('ActionStateListener2', state, values);
+            // dialog1.actions.countAction.setOptions({
+            //     label: `Count: ${values.count}`,
+            // });
+
+        });
+
+        const dialog = new Dialog( dialogOuterRef, {
+            base: {
+                resizeable: true,
+                draggable: true,
+                style:{
+                    borderRadius: 12,
+                    boxShadow: "none",
+                    fontFamily: 'Monospace'
+                },
+                size: {
+                    width: 'lg',
+                    height: 'initial'
+                },
+                actions: {
+                    disabledOnDialogProcessing: true
+                }
+            },
+            snackbar: {
+                busyMessage: 'Calisiyorum ...',
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'left'
+                }
+            },
+            slot: {
+                footer: CustomFooter,
+                header: CustomHeader
+            },
+            slotProps: {
+                footer: ( props => {
+                    return {
+                        values: props.dialogValues,
+                        loading: props.inProcess
+                    }
+                }),
+                header: ( props => {
+                    return {
+                        values: props.dialogValues,
+                        dialog: props.dialog
+                    }
+                })
+            }
+        });
+        dialog
+            .setHeader( (dialog: IDialogDef ) => <div>
+                <span>Using useEffect instead of show for load events</span>
+            </div> )
+            .setBody( (dialog: IDialogDef) => <div>
+                <table>
+                      <thead>
+                        <tr>
+                            <th align={'left'}>Name</th>
+                            <th align={'left'}>Surname</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <tr>
+                            <td align={'left'}>{dialog.values.name}</td>
+                            <td align={'left'}>{dialog.values.surname}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span>{mocker}</span>
+
+            </div> )
+            .addActions([
+                cancelAction,
+                countAction,
+                okAction,
+            ])
+            .initialValues({
+                name: 'Phillip',
+                surname: 'Müller',
+                count: 1
+            })
+            .onClose(() => {
+                setLoaded(false);
+            })
+            .stateListener((state, values, dialog) => {
+                // console.log('state', state);
+                console.log('stateListener_Dialog_actions', dialog);
+                // dialog.actions.countAction.updateOptions({
+                //     label: `Count: ${values.count}`
+                // });
+                // dialog.actions.countAction.updateOptions({
+                //     label: `Count: ${values.count}`,
+                // });
+                // values.name = 'Updated name to ' + values.name;
+
+                // Button Label update via State Listener 🚀
+                // dialog.actions.countAction.setOptions({
+                //     label: `Count: ${values.count}`,
+                // });
+
+
+                if( values.count === 10 ){
+                    if(!dialog.isInProcess().inProcess){
+                        dialog.setInProcess(true, 'Closing in 3 sec...' + values.name );
+                        setTimeout(()=>{
+                            dialog.setInProcess(false);
+                            dialog.close();
+                        }, 3000)
+                    }
+                }
+
+                console.log('State has been updated inside dialog!', values.count, dialog.isInProcess() );
+            })
+            .show( (dialog: IDialogDef) => {
+                setLoaded(true);
+            });
+    }
+
+
+    return {
+        openDialog
+    }
+
+}
+
+export {useWithUseEffect}
