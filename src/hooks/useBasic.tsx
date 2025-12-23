@@ -6,7 +6,7 @@ import Dialog, {
 } from "react-dialogger"
 import {IDialogApiDef} from "react-dialogger/types"
 import {useFormik} from "formik";
-import {ProjectOrderDialogBody} from "./DialogBody.tsx";
+import {DialogBody} from "./DialogBody.tsx";
 import dialog from "react-dialogger";
 
 
@@ -76,9 +76,9 @@ const useBasic = () => {
                 return <div>My Header...{dialog.getFeature('formik')?.values.name}</div>
             })
             .setBody( (dialog: IDialogApiDef) => {
-                console.log('ProjectOrderDialogBody_X', dialog?.values);
+                console.log('DialogBody_body', dialog?.values);
                 // @ts-ignore
-                return <React.Fragment><ProjectOrderDialogBody dialog={dialog} />GH</React.Fragment>
+                return <React.Fragment><DialogBody dialog={dialog} />GH</React.Fragment>
             })
             .addActions([
                 cancelAction,
