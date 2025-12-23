@@ -31,16 +31,13 @@ baseDialogOptions({
 function App() {
 
 
-    const apiRef  = React.useRef<IDialogApiDef|null>(null);
 
     const examples = useExamples();
 
     return (
         <div className="App">
             <button onClick={event => {
-
                 examples.basic.openDialog();
-
             }}>Basic Example</button>
         </div>
     );

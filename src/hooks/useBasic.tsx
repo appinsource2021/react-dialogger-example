@@ -18,6 +18,9 @@ const useBasic = () => {
 
     const openDialog = () => {
 
+        const apiRef  = React.useRef<IDialogApiDef|null>(null);
+
+
         const kaydet = new DialogAction('keydet')
         kaydet.setIntent('positive').onClick((button, dialog ) => {
             // OnClick Event
@@ -33,7 +36,7 @@ const useBasic = () => {
             dialog.close();
         });
 
-        const dialog = new Dialog( null, {
+        const dialog = new Dialog( apiRef, {
             base: {
                 memoBounds: true,
                 id: 'suleyman-dialog-1',
