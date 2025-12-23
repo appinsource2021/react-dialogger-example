@@ -29,11 +29,7 @@ baseDialogOptions({
 })
 
 function App() {
-
-
-
     const examples = useExamples();
-
     return (
         <div className="App">
             <button onClick={event => {
