@@ -9,6 +9,9 @@ You can find the example code and more information about the project on our [Git
 # codesandbox
 You can find the example code about the project on our [Codesandbox](https://codesandbox.io/p/sandbox/7r3t84).
 
+# Youtube
+You can watch simple example on Youtube [Youtube](https://www.youtube.com/watch?v=vhSroEgdj1c)
+
 
 # react-dialogger - Custom Dialog Component Documentation
 
@@ -175,8 +178,9 @@ The Dialog component can be initialized with optional configuration, allowing yo
 const dialog = new Dialog(null, {
     // These settings are customized and will override the default baseDialogOptions
     base: {
-        resizeable: true,  // Allows the dialog to be resized
-        draggable: true    // Allows the dialog to be dragged
+        memoBounds: true,   // Register rect of last position and size of dialog
+        resizeable: true,   // Allows the dialog to be resized
+        draggable: true     // Allows the dialog to be dragged
     }
 });
 ```
@@ -203,9 +207,9 @@ The dialog supports custom actions, such as "Ok" and "Close" buttons. Actions ar
 
 ```javascript
     .addActions([
-        okAction,    // Add Ok button action
-        closeAction  // Add Close button action
-    ])
+    okAction,    // Add Ok button action
+    closeAction  // Add Close button action
+])
 ```
 * Creating Actions: Each action has an ID (used internally and recommended to match the variable name) and can have an intent or custom options like label, color, and variant.
 * onClick: Defines the behavior when the action is clicked.
@@ -218,9 +222,9 @@ You can initialize values for the dialog, such as form fields or other settings.
 
 ```javascript
     .initialValues({
-        my_name: 'Eric',  // Set initial value for name
-        age: 29           // Set initial value for age
-    })
+    my_name: 'Eric',  // Set initial value for name
+    age: 29           // Set initial value for age
+})
 ``` 
 * initialValues: Sets the starting data for the dialog.
 * These values can be read or updated dynamically by the dialog body, header, or actions.
@@ -257,8 +261,8 @@ Finally, the dialog is displayed using the show method. You can define additiona
 
 ```javascript
     .show(dialog1 => {
-        // Actions when the dialog is shown
-    });
+    // Actions when the dialog is shown
+});
 ```
 
 ## Using Formik Inside Dialog Body
@@ -270,11 +274,11 @@ If **Formik** is used inside the dialog body, its `formikProps` can be linked to
 ```javascript
 dialog.setBody(dialog1 => (
     <MyComponent>
-        <Formik 
+        <Formik
             initialValues={{
                 my_name: dialog1.values.my_name,
                 age: dialog1.values.age
-            }} 
+            }}
             onSubmit={(values, formikHelpers) => {
                 // Form submission logic
                 // This event is triggered via okAction click 🚀
@@ -306,7 +310,7 @@ okAction.onClick((button, dialog1) => {
 });
 ```
 
-## User Footer Slot 
+## User Footer Slot
 
 
 
