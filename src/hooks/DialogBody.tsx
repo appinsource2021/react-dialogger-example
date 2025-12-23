@@ -1,5 +1,4 @@
 import React, {JSX} from "react";
-import {useFormik} from "formik";
 import {IDialogApiDef} from "react-dialogger";
 
 const DialogBody: React.FC<{dialog: IDialogApiDef}> = ({dialog}) => {
