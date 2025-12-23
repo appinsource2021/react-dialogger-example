@@ -7,7 +7,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "dialog-npm": "file:../dialog-dev/dist",
     "formik": "^2.4.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
