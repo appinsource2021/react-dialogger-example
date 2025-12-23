@@ -1,33 +1,25 @@
-import React, {JSX} from "react";
-import {FC} from 'react';
+import React from "react";
 import Dialog, {
     DialogAction,
 
 } from "react-dialogger"
 import {IDialogApiDef} from "react-dialogger/types"
-import {useFormik} from "formik";
 import {DialogBody} from "./DialogBody.tsx";
-import dialog from "react-dialogger";
-
-
-
 
 const useBasic = () => {
 
+    const openDialog = (apiRef: React.RefObject<IDialogApiDef>) => {
 
 
-    const openDialog = () => {
-
-        const apiRef  = React.useRef<IDialogApiDef|null>(null);
 
 
-        const kaydet = new DialogAction('keydet')
-        kaydet.setIntent('positive').onClick((button, dialog ) => {
+        const save = new DialogAction('save')
+        save.setIntent('positive').onClick((button, dialog ) => {
             // OnClick Event
             alert(3);
         })
-        const cancelAction = new DialogAction('cancelAction');
-        cancelAction
+        const cancel = new DialogAction('cancel');
+        cancel
             .stateListener((values, button, dialog) => {
                 button.setInProcess(true);
                 // ...
@@ -39,7 +31,7 @@ const useBasic = () => {
         const dialog = new Dialog( apiRef, {
             base: {
                 memoBounds: true,
-                id: 'suleyman-dialog-1',
+                id: 'my-dialog-1',
                 size: {
                     width: 800, height: 500
                 },
@@ -65,8 +57,8 @@ const useBasic = () => {
             },
             localText: {
                 // Successfully if action label not used
-                keydet: 'Tamam',
-                cancel: 'Iptal',
+                save: 'Speichern',
+                cancel: 'Abbrechen',
                 busyMessage: 'Cok Mesgul!!!'
             }
 
@@ -81,11 +73,11 @@ const useBasic = () => {
                 return <React.Fragment><DialogBody dialog={dialog} />GH</React.Fragment>
             })
             .addActions([
-                cancelAction,
-                kaydet,
+                cancel,
+                save,
             ])
             .initialValues({
-                name: 'Patric'
+                name: 'Add your name'
             })
             .show( (dialog: IDialogApiDef) => {
             });

@@ -1,7 +1,6 @@
 import './App.css';
 import React from "react";
 
-import './styles.css';
 import {useExamples} from "./hooks/examples.tsx";
 
 import {IDialogApiDef, InitDialogMemoizeBounds, baseDialogOptions} from "react-dialogger";
@@ -29,11 +28,14 @@ baseDialogOptions({
 })
 
 function App() {
+
+    const apiRef  = React.useRef<IDialogApiDef|null>(null);
+
     const examples = useExamples();
     return (
         <div className="App">
             <button onClick={event => {
-                examples.basic.openDialog();
+                examples.basic.openDialog(apiRef);
             }}>Basic Example</button>
         </div>
     );
