@@ -4,7 +4,34 @@ import React from "react";
 import './styles.css';
 import {useExamples} from "./hooks/examples.tsx";
 
+import {IDialogApiDef, InitDialogMemoizeBounds, baseDialogOptions} from "react-dialogger";
+
+InitDialogMemoizeBounds();
+
+baseDialogOptions({
+    snackbar: {
+        busyMessage: 'Suleyman'
+    },
+    base:{
+        actions: {
+            initialIntents:{
+                positive: {
+                    color: "error",
+                    variant: "contained"
+                },
+                neutral: {
+                    color: "red",
+                    variant: 'text'
+                }
+            }
+        }
+    }
+})
+
 function App() {
+
+
+    const apiRef  = React.useRef<IDialogApiDef|null>(null);
 
     const examples = useExamples();
 
@@ -15,29 +42,6 @@ function App() {
                 examples.basic.openDialog();
 
             }}>Basic Example</button>
-            <button onClick={event => {
-
-                examples.updateValues.openDialog();
-
-            }}>Example with Updated Values</button>
-            <button onClick={event => {
-
-                examples.withSlot.openDialog();
-
-            }}>Example with Slot</button>
-
-            <button onClick={event => {
-
-                examples.withListener.openDialog();
-
-            }}>Example with Listener</button>
-
-            <button onClick={event => {
-
-                examples.withUseEffect.openDialog();
-
-            }}>useEffect & DialogRef instead of .show callback </button>
-
         </div>
     );
 }

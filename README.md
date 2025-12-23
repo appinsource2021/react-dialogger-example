@@ -10,13 +10,15 @@ You can find the example code and more information about the project on our [Git
 You can find the example code about the project on our [Codesandbox](https://codesandbox.io/p/sandbox/7r3t84).
 
 
-# react-araci - Custom Dialog Component Documentation
+# react-dialogger - Custom Dialog Component Documentation
 
 This documentation explains the configuration of the Custom Dialog Component and how to customize it using initial options with the `useDialogOptions` function. `useDialogOptions` allows you to set the initial options to manage the dialog's appearance and behavior.
 
-## useDialogOptions Hook
+# Global Dialog Configuration
 
-`useDialogOptions` is a hook used to set the initial options of a Dialog component. This hook allows you to configure various properties of the dialog, such as the header, footer, size, style, etc.
+#### baseDialogOptions
+
+`baseDialogOptions` This property is created at the top-level of the app and serves as the default configuration used throughout the entire application. Later, when creating individual dialogs, these options can be overridden by specifying dialog-specific options.
 
 ```Global Dialog Configuration
 The useDialogOptions function is placed at the beginning of the application to define base settings for all dialogs used throughout the app. These settings act as a global configuration, ensuring consistency across all dialog components.
@@ -29,73 +31,53 @@ Although a global configuration is set by useDialogOptions, each dialog can stil
 ```
 ## Example Usage
 
-Below is an example of customizing a dialog using `useDialogOptions`:
+Below is an example of customizing a dialog using `baseDialogOptions`:
 
-#### useDialogOptions (Base)
+
+
 ```js
-useDialogOptions({
+baseDialogOptions({
+    backdrop: {
+        backgroundColor: "#282828",
+        opacity: 0.6,
+        hideOnClick: false,
+    },
     base: {
-        footer: {
-            style: { // Footer custom styles
-                backgroundColor: '#f1f1f1' // Background color for footer
-            }
+        style: {
+            backgroundColor: "white",
+            boxShadow: "0 0 20px #000000",
         },
-        header: {
-            style: { // Header custom styles
-                backgroundColor: '#333', // Background color for header
-                color: '#fff' // Text color for header
-            }
-        },
-        fullscreen: true, // Enables fullscreen mode for the dialog
-        notifyOnClosing: 'zoom', // Notification method on closing ('zoom' or 'snackbar')
-        headerControllerIcons: {
-            size: 20, // Icon size in header
-            color: 'red' // Icon color in header
-        },
-        style: { // General styles for the dialog
-            borderRadius: '8px', // Round corners for the dialog
-            boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.2)' // Shadow around the dialog
-        },
-        resizeable: true, // Makes the dialog resizable by the user
-        draggable: true, // Allows the dialog to be dragged around the screen
-        closeable: true, // Allows the dialog to be closed
-        initialAnchor: {
-            vertical: 'center', // Vertical position of the dialog ('flex-start', 'center', 'flex-end')
-            horizontal: 'center' // Horizontal position of the dialog ('flex-start', 'center', 'flex-end')
-        },
-        size: {
-            width: 800, // Dialog width in pixels
-            height: 600 // Dialog height in pixels
-        },
+        closeable: false,
+        about: false,
+        initialAnchor: { vertical: "flex-start", horizontal: "center" },
+        draggable: false,
+        size: { width: 'min-content', height: 300 },
         actions: {
-            disabledOnDialogProcessing: true, // Disables actions when the dialog is processing
-            baseStyle: { // Custom styles for action buttons
-                padding: '5px 20px', // Padding inside action buttons
-                border: '2px solid #ccc', // Border for action buttons
-                boxShadow: '0 0 10px rgba(0, 0, 0, 0.15)' // Shadow for action buttons
+            initialIntents: {
+                positive: { color: 'primary', variant: 'contained' },
+                negative: { color: 'error', variant: 'contained' },
+                neutral: { color: 'default', variant: 'text' }
             }
         }
-    }
+    },
+    animate: 'none',
+    progress: { color: "red", size: 30 },
+    snackbar: {
+        anchorOrigin: { vertical: "top", horizontal: "center" },
+        autoHideDuration: 3000,
+        maxSnack: 3
+    },
+    slot: { action: undefined },
+    slotProps: { action: {} },
+    localText: { busyMessage: "Please wait..." }
 });
-```
-#### useDialogOptions (snackbar)
-```js
-snackbar: {
-    busyMessage: 'On Process, please wait!', // Message displayed during the process
-    maxSnack: 4, // Maximum number of snackbars that can be displayed at once
-    autoHideDuration: 5000, // Time in milliseconds before the snackbar automatically disappears (5000ms = 5 seconds)
-    anchorOrigin: {
-        horizontal: "center", // Horizontal alignment of the snackbar (center, left, right)
-        vertical: "top" // Vertical alignment of the snackbar (top, bottom)
-    }
-}
 ```
 
 #### useDialogOptions (Slot & Slot Props)
 ```js
 slot: {
     header: HeaderSlot, // Slot for the header, can be a custom component or template
-        footer: FooterSlot // Slot for the footer, can be a custom component or template
+    footer: FooterSlot // Slot for the footer, can be a custom component or template
 },
 slotProps: {
     header: (props: IBaseHeaderProps) => {
@@ -151,30 +133,12 @@ export interface BaseDialogSlotProps {
 
 ```
 
-#### useDialogOptions (Progress)
-```js
-progress: {
-    size: 20,
-    color: 'red'
-},
-```
-#### useDialogOptions (Backdrop)
-```js
-backdrop: {
-    backgroundColor: '#282828', // The background color of the backdrop (overlay) behind the dialog
-    opacity: 0.6, // The opacity of the backdrop (0 = fully transparent, 1 = fully opaque)
-    hideOnClick: false // Determines whether the backdrop will hide when clicked
-}
-
-
-```
-
 
 # Basic Usage of Custom Dialog Component
 
 This example demonstrates the basic usage of the **Custom Dialog Component** with predefined actions, content, and properties. The dialog can be configured to include actions (buttons), initial values, and custom behaviors for interaction.
 
-## 1. Create Actions
+## 1. Creating Actions with DialogAction
 
 Actions are defined for the dialog buttons (e.g., "Ok" and "Close").
 
@@ -182,6 +146,13 @@ Actions are defined for the dialog buttons (e.g., "Ok" and "Close").
 - **Close Action**: The "Close" button has a `contained` variant and `primary` color.
 
 ```javascript
+// You can create a simple action using shortened syntax:
+const okAction = new DialogAction('okAction').setIntent('positive');
+/**
+ * 'okAction' is used as the ID for this action. It is recommended to keep the variable name the same as the ID for easier access.
+ * .setIntent('positive') refers to a global intent defined in baseDialogOptions.
+ * Alternatively, you can provide custom options for this action, which will override the intent settings.
+ */
 const okAction = new DialogAction('okAction', {
     label: 'Ok',
     variant: 'text',
@@ -190,39 +161,45 @@ const okAction = new DialogAction('okAction', {
 okAction.onClick((button, dialog1) => {
     // Actions when Ok button is clicked
 });
-
-const closeAction = new DialogAction('closeAction', {
-    label: 'Close',
-    variant: 'contained',
-    color: 'primary'
-});
-closeAction.onClick((button, dialog1) => {
-    dialog1.close();  // Closes the dialog when the Close button is clicked
-});
+// Eget intent kullanilirsa ve options icinde bir label etiketi verilmesse action "name" label etiket olarak baz alinir
+// Eget bu etiketin tercumesi ile iligli islem yapilacaksa o hanfe baseOptions icinde ki local text bolumde bu action name key olarak verilir 
+// tercumesi karsisina yazilir
 ```
+#### Notes on Labels and Translation
+* If an intent is used and no label is provided in the options, the action will use the action name as the label.
+* If you need to translate this label, you can define it in the localText section of baseDialogOptions using the action name as the key. The translated text will then replace the default label.
 
 ## 2. Create Dialog
-The Dialog component is initialized with optional configuration such as resize and drag capabilities.
-
+The Dialog component can be initialized with optional configuration, allowing you to customize its behavior and appearance, such as resizing and dragging capabilities.
 ```javascript
 const dialog = new Dialog(null, {
+    // These settings are customized and will override the default baseDialogOptions
     base: {
-        resizeable: true,  // Dialog can be resized
-        draggable: true    // Dialog can be dragged
+        resizeable: true,  // Allows the dialog to be resized
+        draggable: true    // Allows the dialog to be dragged
     }
 });
 ```
 ## 3. Set Header and Body
-You can define the dialog’s header and body content dynamically. The content is set through functions, allowing flexibility in displaying data.
-
+The dialog’s header and body content can be defined dynamically. Both are set using functions, which allows you to render content based on the current state or data available in the dialog.
 ```javascript
 dialog
-    .setHeader(dialog1 => 'Dialog header')  // Set dialog header
-    .setBody(dialog1 => 'Dialog Body')      // Set dialog body content
+    .setHeader((dialog) => <div>Dialog Header - {dialog.formikProps.values.name}</div>)
+    .setBody((dialog) => (
+        <>
+            <ProjectOrderDialogBody dialog={dialog} />
+            <p>Additional content here...</p>
+        </>
+    ));
 ```
+* Header: The setHeader function returns a React element to display in the dialog’s header area.
+* Body: The setBody function returns a React element for the main content of the dialog.
+* Both functions receive the dialog instance as an argument, giving access to values, features, and actions for dynamic rendering.
+#### This approach makes it easy to inject custom components or dynamic content into dialogs at runtime.
+
 
 ## 4. Add Actions
-The dialog supports custom actions like the "Ok" and "Close" buttons. These actions are added to the dialog with the addActions method.
+The dialog supports custom actions, such as "Ok" and "Close" buttons. Actions are created using the DialogAction class and then added to the dialog via the addActions method.
 
 ```javascript
     .addActions([
@@ -230,6 +207,12 @@ The dialog supports custom actions like the "Ok" and "Close" buttons. These acti
         closeAction  // Add Close button action
     ])
 ```
+* Creating Actions: Each action has an ID (used internally and recommended to match the variable name) and can have an intent or custom options like label, color, and variant.
+* onClick: Defines the behavior when the action is clicked.
+* addActions: Adds one or more actions to the dialog.
+#### This allows you to define interactive buttons for your dialog, with full flexibility over appearance and behavior.
+
+
 ## 5. Set Initial Values
 You can initialize values for the dialog, such as form fields or other settings. These values will be used throughout the dialog lifecycle.
 
@@ -239,6 +222,36 @@ You can initialize values for the dialog, such as form fields or other settings.
         age: 29           // Set initial value for age
     })
 ``` 
+* initialValues: Sets the starting data for the dialog.
+* These values can be read or updated dynamically by the dialog body, header, or actions.
+* Useful for prefilling forms, maintaining state, or passing initial configuration to dialog features.
+
+## Updating Dialog Values
+
+#### You can update the dialog's values at any point during its lifecycle using the setValues method. This is useful for dynamically changing data within the dialog based on user actions or other events.
+```
+dialog.setValues({
+    ...dialog.values,   // Preserve existing values
+    sex: "Woman/Man"    // Update or add new value
+});
+
+```
+* setValues: Merges the new values with the existing ones.
+* dialog.values: Provides access to the current state of the dialog’s data.
+* Allows components, actions, or features within the dialog to dynamically update the state.
+#### This ensures that your dialog content and behavior can reactively adapt to user interactions or other runtime changes.
+
+## Updating a Single Value
+#### You can also update a single value in the dialog using the setValue method:
+```
+dialog.setValue('sex', 'Man/Woman');
+```
+* setValue(key, value): Updates a specific property in the dialog’s values.
+* Equivalent to updating via setValues, but convenient for single-field updates.
+* Useful for reactively changing individual fields without affecting other values.
+#### This method provides a concise and flexible way to modify the dialog’s state at runtime.
+
+
 ## 6. Show the Dialog
 Finally, the dialog is displayed using the show method. You can define additional logic that runs when the dialog is shown.
 
@@ -299,10 +312,10 @@ okAction.onClick((button, dialog1) => {
 
 ## Summary of Basic Usage
 ```php
-- **Dialog Initialization**: Create a dialog instance with optional configuration for resize and drag behavior.
-- **Actions**: Define action buttons (Ok, Close) with custom behavior (click handling).
+- **Dialog Initialization**: Create a dialog instance with optional configuration for resizing and dragging.
+- **Actions**: Define action buttons (e.g., Ok, Cancel) with custom behavior via click handlers.
 - **Content**: Dynamically set the dialog header and body content.
-- **⚠ Header Slot Consideration**: `setHeader` will be ignored if a **header slot** is used.
+- **⚠ Header Slot Consideration**: The `setHeader` method will be ignored if a **header slot** is provided.
 - **Initial Values**: Set initial values for the dialog’s content (e.g., form fields).
 - **Show Dialog**: Display the dialog and handle any post-display logic.
 

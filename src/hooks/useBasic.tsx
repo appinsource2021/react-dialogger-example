@@ -1,65 +1,92 @@
-import React from "react";
+import React, {JSX} from "react";
+import {FC} from 'react';
 import Dialog, {
     DialogAction,
+
 } from "react-dialogger"
-import {
-    ActionDialogDef,
-    ActionDef, IDialogDef
-} from "react-dialogger/types"
+import {IDialogApiDef} from "react-dialogger/types"
+import {useFormik} from "formik";
+import {ProjectOrderDialogBody} from "./DialogBody.tsx";
+import dialog from "react-dialogger";
+
+
+
 
 const useBasic = () => {
 
+
+
     const openDialog = () => {
-        const okAction = new DialogAction('okAction', {
-            label: 'Ok',
-            variant: 'contained',
-            // color: 'green'
-            style: {
-                backgroundColor: 'green', color: 'white', padding: '3px 20px'
-            }
-        });
-        okAction.onClick((button: ActionDef, dialog: ActionDialogDef ) => {
-            button.setInProcess(true);
+
+        const kaydet = new DialogAction('keydet')
+        kaydet.setIntent('positive').onClick((button, dialog ) => {
+            // OnClick Event
+            alert(3);
         })
-        const cancelAction = new DialogAction('cancelAction', {
-            label: 'Cancel',
-            variant: 'text',
-            color: 'primary'
-        });
-        cancelAction.onClick( (button: ActionDef, dialog: ActionDialogDef) => {
+        const cancelAction = new DialogAction('cancelAction');
+        cancelAction
+            .stateListener((values, button, dialog) => {
+                button.setInProcess(true);
+                // ...
+            })
+            .setIntent('neutral').onClick( (button, dialog) => {
             dialog.close();
         });
 
         const dialog = new Dialog( null, {
             base: {
+                memoBounds: true,
+                id: 'suleyman-dialog-1',
                 size: {
-                    width: "sm",
-                    height: "initial"
+                    width: 800, height: 500
                 },
+                fullscreen: true,
                 resizeable: true,
                 draggable: true,
+                closeable: true,
                 style:{
                     borderRadius: 12,
                     boxShadow: "none"
                 },
                 initialAnchor: {
-                    vertical: 'flex-end',
-                    horizontal: 'center'
+                    vertical: 'center',
+                    horizontal: 'flex-end'
+                },
+                actions: {
+                    disabledOnDialogProcessing: true
                 }
+            },
+            animate: 'jumper',
+            backdrop: {
+                hideOnClick: true
+            },
+            localText: {
+                // Successfully if action label not used
+                keydet: 'Tamam',
+                cancel: 'Iptal',
+                busyMessage: 'Cok Mesgul!!!'
             }
+
         });
         dialog
-            .setHeader( (dialog: IDialogDef ) => 'Basic Example')
-            .setBody( (dialog: IDialogDef) => <div>Content</div> )
+            .setHeader( (dialog: IDialogApiDef ) => {
+                return <div>My Header...{dialog.getFeature('formik')?.values.name}</div>
+            })
+            .setBody( (dialog: IDialogApiDef) => {
+                console.log('ProjectOrderDialogBody_X', dialog?.values);
+                // @ts-ignore
+                return <React.Fragment><ProjectOrderDialogBody dialog={dialog} />GH</React.Fragment>
+            })
             .addActions([
                 cancelAction,
-                okAction,
+                kaydet,
             ])
-            .initialState({
+            .initialValues({
+                name: 'Patric'
             })
-            .show( (dialog: IDialogDef) => {
-
+            .show( (dialog: IDialogApiDef) => {
             });
+
     }
 
 

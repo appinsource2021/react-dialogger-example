@@ -1,11 +1,12 @@
 import React from "react";
 import Dialog, {
-    DialogAction, DialogCloseAction, DialogFullscreenAction, DialogHeaderActionsWrapper, DialogProcessing,
+    DialogAction, DialogCloseAction, DialogFullscreenAction, DialogHeaderActionsWrapper, DialogProcessing, DialogInfoAction
 } from "react-dialogger"
 import {
     ActionDialogDef,
-    ActionDef, IDialogDef, IFooterProps, IHeaderProps, IBaseFooterProps, IBaseHeaderProps
+    ActionDef, IDialogApiDef, IFooterProps, IHeaderProps, IBaseFooterProps, IBaseHeaderProps
 } from "react-dialogger/types"
+import {FormikProps} from "formik";
 
 const FooterSlot = (props: IFooterProps) => {
 
@@ -33,6 +34,7 @@ const HeaderSlot = (props: IHeaderProps) => {
         <DialogHeaderActionsWrapper>
             <DialogCloseAction />
             <DialogFullscreenAction />
+            <DialogInfoAction />
         </DialogHeaderActionsWrapper>
     </div>;
 }
@@ -49,6 +51,7 @@ const useWithSlot = () => {
         });
         okAction.onClick((button: ActionDef, dialog: ActionDialogDef ) => {
             button.setInProcess(true);
+
         })
         const cancelAction = new DialogAction('cancelAction', {
             label: 'Cancel',
@@ -61,8 +64,12 @@ const useWithSlot = () => {
 
         const dialog = new Dialog( null, {
             base: {
+                memoBounds: true,
+                id:'super-dialog-21',
                 resizeable: true,
+                closeable: true,
                 draggable: true,
+                fullscreen: true,
                 style:{
                     borderRadius: 12,
                     boxShadow: "none",
@@ -71,12 +78,16 @@ const useWithSlot = () => {
                 size: {
                     width: 'lg',
                     height: 'initial'
+                },
+                initialAnchor: {
+                    horizontal: 'center',
+                    vertical: 'flex-start'
                 }
             },
             slot: {
                 // action: ActionSlot,
                 footer: FooterSlot,
-                header: HeaderSlot
+                // header: HeaderSlot
             },
             slotProps: {
                 action: {
@@ -104,38 +115,31 @@ const useWithSlot = () => {
                         className: 'custom-footer-class'
                     }
                 },
-                header: ( props: IBaseHeaderProps ) => {
-                    return {
-                        values: props.dialogValues,
-                        options: props.dialogOptions,
-                        className: 'custom-action-class-x',
-                        headerName: 'Test Dialog'
-                    }
-                }
+                // header: ( props: IBaseHeaderProps ) => {
+                //     return {
+                //         values: props.dialogValues,
+                //         options: props.dialogOptions,
+                //         className: 'custom-action-class-x',
+                //         headerName: 'Test Dialog'
+                //     }
+                // }
             }
         });
         dialog
             // Header Will be ignored
-            .setHeader( (dialog: IDialogDef ) => <div>
-                <span>Update Values</span>
-                <span>{dialog.values.name} {dialog.values.surname}</span>
-            </div> )
-            .setBody( (dialog: IDialogDef) => <div>
-                <table>
-                      <thead>
-                        <tr>
-                            <th align={'left'}>Name</th>
-                            <th align={'left'}>Surname</th>
-                        </tr>
-                      </thead>
-                    <tbody>
-                        <tr>
-                            <td align={'left'}>{dialog.values.name}</td>
-                            <td align={'left'}>{dialog.values.surname}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> )
+            .setHeader( (dialog: IDialogApiDef ) => {
+                return <div>
+                    Use With Slot
+                    <span>{dialog?.values?.name}</span>
+                </div>
+            } )
+            .setBody( (dialog: IDialogApiDef ) => {
+                console.log('setBody', dialog.values);
+                // dialog?.setValue('name', 'Suleyman');
+                // setTimeout(() => {
+                //     dialog?.setValue('name', 'Ulku');
+                // }, 5000);
+            } )
             // Customized Footer has been added
             .addActions([
                 cancelAction,
@@ -145,24 +149,11 @@ const useWithSlot = () => {
                 name: 'Phillip',
                 surname: 'Müller'
             })
-            .show( (dialog: IDialogDef) => {
-
-                dialog.setInProcess(true, 'Update only the name in 3 sec...');
-                setTimeout(()=> {
-                    dialog.setValue('name', 'New Phillip');
-
-                    dialog.setInProcess(true, `Update only name to ${dialog.values.name}, now all values in 10 sec...`);
-                    setTimeout(()=> {
-                        dialog.setValues({
-                            name: 'Updated name to Thomas',
-                            surname: 'Updated to surname to Marcus'
-                        });
-                        // dialog.setInProcess(false);
-                    }, 10000);
-
-                }, 3000)
-
-
+            .show( (dialog: IDialogApiDef) => {
+                dialog.setValues({name: "Osman"});
+                setTimeout(() => {
+                    dialog?.setValue('name', 'Ulku');
+                }, 5000);
             });
     }
 
