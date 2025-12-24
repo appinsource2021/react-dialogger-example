@@ -3,7 +3,7 @@ import Dialog, {
     DialogAction,
 
 } from "react-dialogger"
-import {IDialogApiDef} from "react-dialogger/types"
+import {IDialogApiDef, ActionApiDef} from "react-dialogger/types"
 import {DialogBody} from "./DialogBody.tsx";
 
 const useBasic = () => {
@@ -14,9 +14,13 @@ const useBasic = () => {
 
 
         const save = new DialogAction('save')
-        save.setIntent('positive').onClick((button, dialog ) => {
+        save.setIntent('positive').onClick((button: ActionApiDef, dialog: IDialogApiDef ) => {
             // OnClick Event
-            alert(3);
+            dialog.setInProcess(true);
+            setTimeout(() => {
+                dialog.setInProcess(false);
+                dialog.close();
+            }, 5000);
         })
         const cancel = new DialogAction('cancel');
         cancel
@@ -80,6 +84,20 @@ const useBasic = () => {
                 name: 'Add your name'
             })
             .show( (dialog: IDialogApiDef) => {
+
+                setTimeout(() => {
+                    dialog.processingListener(process => {
+                        console.log('This is a first');
+                    })
+                }, 500)
+
+                setTimeout(() => {
+                    dialog.processingListener(process => {
+                        console.log('This is a second');
+                    })
+                }, 1500)
+
+
             });
 
     }
