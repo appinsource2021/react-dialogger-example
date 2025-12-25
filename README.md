@@ -12,6 +12,17 @@ You can find the example code about the project on our [Codesandbox](https://cod
 # Youtube
 You can watch simple example on Youtube [Youtube](https://www.youtube.com/watch?v=vhSroEgdj1c)
 
+# Why react-dialogger?
+> react-dialogger is built for React applications that need dynamic, runtime-managed dialogs rather than static JSX-based modals.
+It enables centralized dialog configuration, action-driven logic, and dialog-owned state, making complex dialog flows easier to manage and scale.
+Perfect for applications with dynamic forms, async workflows, and advanced UI orchestration.
+
+## Philosophy
+
+To understand why react-dialogger exists and when to use it,
+see the detailed philosophy document:
+
+👉 [Dialogger Philosophy](docs/philosophy.md)
 
 # react-dialogger - Custom Dialog Component Documentation
 
@@ -329,6 +340,29 @@ This basic usage setup enables you to quickly configure and display a custom dia
 > **⚠ Important Notice**  
 > This package is a continuation of the `react-araci` package.  
 > Due to an error, `react-araci` was removed, and it has been decided to continue under the new package name **`react-dialogger`**.
+
+
+## React-Dialogger vs MUI Dialog / AntD Modal
+```js
+| Feature / Aspect                    | **react-dialogger**                                                         | **MUI Dialog**                                      | **AntD Modal**                                                |
+| ----------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------- |
+| **Dialog Creation**                 | Runtime / dynamic (`new Dialog().show()`)                                   | JSX-based, usually static (`<Dialog open={...} />`) | JSX-based, usually static (`<Modal visible={...} />`)         |
+| **State Management**                | Dialog owns its own state (`initialValues`, `setValues`)                    | State often in React components                     | State often in React components                               |
+| **Centralized Global Config**       | `baseDialogOptions` allows global styling, intents, localization            | Global theme only, per-dialog config needed         | Global config via `ConfigProvider`, per-modal override needed |
+| **Actions / Buttons**               | Action-driven, first-class citizens (`DialogAction`) with intents & onClick | Children buttons, manual click handling             | `okText` / `cancelText` props and footer buttons              |
+| **Dynamic Header & Body**           | Fully dynamic via functions                                                 | JSX render, can be dynamic but bound to component   | JSX render, can be dynamic but bound to component             |
+| **Dialog Overwrites / Flexibility** | Local overrides of global options                                           | Limited, mostly via props                           | Limited, mostly via props                                     |
+| **Complex Flows / Wizards**         | Fully supported via action chaining and dialog-owned state                  | Needs extra state management                        | Needs extra state management                                  |
+| **Async / Runtime Use**             | Designed for runtime invocation                                             | Typically requires state lift                       | Typically requires state lift                                 |
+| **Animation / Backdrop**            | Built-in customizable animations & backdrop settings                        | Default MUI transitions                             | Default AntD transitions                                      |
+| **Use Case**                        | Large, dynamic, enterprise apps, multi-step wizards, async workflows        | Standard dialogs with simple static content         | Standard dialogs with simple static content                   |
+
+
+```
+
+
+
+
 
 ## 📩 Contact
 For support or inquiries, please reach out via email:  

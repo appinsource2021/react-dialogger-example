@@ -8,24 +8,15 @@ import {IDialogApiDef, InitDialogMemoizeBounds, baseDialogOptions} from "react-d
 InitDialogMemoizeBounds();
 
 baseDialogOptions({
-    snackbar: {
-        busyMessage: 'Suleyman'
-    },
-    base:{
+    base: {
         actions: {
-            initialIntents:{
-                positive: {
-                    color: "error",
-                    variant: "contained"
-                },
-                neutral: {
-                    color: "red",
-                    variant: 'text'
-                }
-            }
-        }
-    }
-})
+            initialIntents: {
+                positive: { color: "error", variant: "contained" },
+                negative: { color: "warning", variant: "contained" },
+            },
+        },
+    },
+});
 
 function App() {
 

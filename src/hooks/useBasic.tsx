@@ -8,100 +8,59 @@ import {DialogBody} from "./DialogBody.tsx";
 
 const useBasic = () => {
 
-    const openDialog = (apiRef: React.RefObject<IDialogApiDef>) => {
-
-
-
-
-        const save = new DialogAction('save')
-        save.setIntent('positive').onClick((button: ActionApiDef, dialog: IDialogApiDef ) => {
-            // OnClick Event
-            dialog.setInProcess(true);
-            setTimeout(() => {
-                dialog.setInProcess(false);
-                dialog.close();
-            }, 5000);
-        })
-        const cancel = new DialogAction('cancel');
-        cancel
-            .stateListener((values, button, dialog) => {
-                button.setInProcess(true);
-                // ...
-            })
-            .setIntent('neutral').onClick( (button, dialog) => {
+    const openDialog = () => {
+        const positiveAction = new DialogAction("positiveAction").setIntent(
+            "positive"
+        );
+        positiveAction.onClick((button: ActionApiDef, dialog: IDialogApiDef) => {
+            button.setInProcess(true);
+        });
+        const negativeAction = new DialogAction("negativeAction").setIntent(
+            "negative"
+        );
+        negativeAction.onClick((button: ActionApiDef, dialog: IDialogApiDef) => {
+            button.setInProcess(true);
+        });
+        const custom = new DialogAction("custom", {
+            label: "Negative",
+            variant: "outlined",
+            color: "blue",
+        });
+        custom.onClick((button: ActionApiDef, dialog: IDialogApiDef) => {
             dialog.close();
         });
 
-        const dialog = new Dialog( apiRef, {
+        const dialog = new Dialog(null, {
             base: {
                 memoBounds: true,
-                id: 'my-dialog-1',
+                // Id required by memoBounds
+                id: "specicif-dialog-id",
                 size: {
-                    width: 800, height: 500
+                    width: "sm",
+                    height: 500,
                 },
-                fullscreen: true,
                 resizeable: true,
                 draggable: true,
-                closeable: true,
-                style:{
+                style: {
                     borderRadius: 12,
-                    boxShadow: "none"
+                    boxShadow: "none",
                 },
                 initialAnchor: {
-                    vertical: 'center',
-                    horizontal: 'flex-end'
+                    vertical: "flex-start",
+                    horizontal: "center",
                 },
-                actions: {
-                    disabledOnDialogProcessing: true
-                }
             },
-            animate: 'jumper',
-            backdrop: {
-                hideOnClick: true
-            },
-            localText: {
-                // Successfully if action label not used
-                save: 'Speichern',
-                cancel: 'Abbrechen',
-                busyMessage: 'Cok Mesgul!!!'
-            }
-
+            animate: "jumper",
         });
         dialog
-            .setHeader( (dialog: IDialogApiDef ) => {
-                return <div>My Header...{dialog.getFeature('formik')?.values.name}</div>
-            })
-            .setBody( (dialog: IDialogApiDef) => {
-                console.log('DialogBody_body', dialog?.values);
-                // @ts-ignore
-                return <React.Fragment><DialogBody dialog={dialog} />GH</React.Fragment>
-            })
-            .addActions([
-                cancel,
-                save,
-            ])
+            .setHeader((dialog: IDialogApiDef) => "Basic Example")
+            .setBody((dialog: IDialogApiDef) => <DialogBody dialog={dialog} />)
+            .addActions([custom, negativeAction, positiveAction])
             .initialValues({
-                name: 'Add your name'
+                name: "My Name ",
             })
-            .show( (dialog: IDialogApiDef) => {
-
-                setTimeout(() => {
-                    dialog.processingListener(process => {
-                        console.log('This is a first');
-                    })
-                }, 500)
-
-                setTimeout(() => {
-                    dialog.processingListener(process => {
-                        console.log('This is a second');
-                    })
-                }, 1500)
-
-
-            });
-
-    }
-
+            .show((dialog: IDialogApiDef) => {});
+    };
 
     return {
         openDialog
